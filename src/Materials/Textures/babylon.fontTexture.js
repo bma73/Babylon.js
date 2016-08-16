@@ -12,7 +12,7 @@ var BABYLON;
         function CharInfo() {
         }
         return CharInfo;
-    })();
+    }());
     BABYLON.CharInfo = CharInfo;
     var FontTexture = (function (_super) {
         __extends(FontTexture, _super);
@@ -65,6 +65,7 @@ var BABYLON;
             // Create the texture that will store the font characters
             this._texture = scene.getEngine().createDynamicTexture(textSize, textSize, false, samplingMode);
             var textureSize = this.getSize();
+            this.hasAlpha = true;
             // Recreate a new canvas with the final size: the one matching the texture (resizing the previous one doesn't work as one would expect...)
             this._canvas = document.createElement("canvas");
             this._canvas.width = textureSize.width;
@@ -183,8 +184,8 @@ var BABYLON;
             var lineCount = 1;
             var charxpos = 0;
             // Parse each char of the string
-            for (var _i = 0; _i < text.length; _i++) {
-                var char = text[_i];
+            for (var _i = 0, text_1 = text; _i < text_1.length; _i++) {
+                var char = text_1[_i];
                 // Next line feed?
                 if (char === "\n") {
                     maxWidth = Math.max(maxWidth, curWidth);
@@ -307,6 +308,6 @@ var BABYLON;
             }
         };
         return FontTexture;
-    })(BABYLON.Texture);
+    }(BABYLON.Texture));
     BABYLON.FontTexture = FontTexture;
 })(BABYLON || (BABYLON = {}));

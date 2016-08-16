@@ -1,5 +1,6 @@
 ﻿module BABYLON {
     export class Sprite {
+
         public position: Vector3;
         public color = new Color4(1.0, 1.0, 1.0, 1.0);
         public width = 1.0;
@@ -33,11 +34,26 @@
             this.height = value;
         }
 
+        public get manager(): SpriteManager {
+            return this._manager;
+        }
+
+        public set manager(value: SpriteManager) {
+            if (this._manager && value !== this._manager) {
+                this.remove();
+                this._manager = value;
+            }
+            if (value) {
+                var index = value.sprites.indexOf(this);
+                if (index == -1) value.sprites.push(this);
+            }
+        }
+
         constructor(public name: string, manager: SpriteManager) {
-            this._manager = manager;
-
-            this._manager.sprites.push(this);
-
+            if (manager) {
+                this._manager = manager;
+                manager.sprites.push(this);
+            }
             this.position = Vector3.Zero();
         }
 
@@ -85,11 +101,13 @@
         }
 
         public dispose(): void {
-            for (var i = 0; i < this._manager.sprites.length; i++) {
-                if (this._manager.sprites[i] == this) {
-                    this._manager.sprites.splice(i, 1);
-                }
-            }
+            this.remove();
+            this._manager = null;
+        }
+
+        private remove(): void {
+            var index = this._manager.sprites.indexOf(this);
+            if (index != -1) this._manager.sprites.splice(index, 1);
         }
     }
 } 

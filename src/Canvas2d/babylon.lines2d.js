@@ -135,7 +135,7 @@ var BABYLON;
             return true;
         };
         return Lines2DRenderCache;
-    })(BABYLON.ModelRenderCache);
+    }(BABYLON.ModelRenderCache));
     BABYLON.Lines2DRenderCache = Lines2DRenderCache;
     var Lines2DInstanceData = (function (_super) {
         __extends(Lines2DInstanceData, _super);
@@ -163,7 +163,7 @@ var BABYLON;
             BABYLON.instanceData(BABYLON.Shape2D.SHAPE2D_CATEGORY_FILLGRADIENT)
         ], Lines2DInstanceData.prototype, "boundingMax", null);
         return Lines2DInstanceData;
-    })(BABYLON.Shape2DInstanceData);
+    }(BABYLON.Shape2DInstanceData));
     BABYLON.Lines2DInstanceData = Lines2DInstanceData;
     var Lines2D = (function (_super) {
         __extends(Lines2D, _super);
@@ -973,12 +973,12 @@ var BABYLON;
                 renderCache.fillIB = engine.createIndexBuffer(this._fillIB);
                 renderCache.fillIndicesCount = this._fillIB.length;
                 // Get the instanced version of the effect, if the engine does not support it, null is return and we'll only draw on by one
-                var ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_FILLPARTID, ["position"], true);
+                var ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_FILLPARTID, ["position"], null, true);
                 if (ei) {
                     renderCache.effectFillInstanced = engine.createEffect("lines2d", ei.attributes, ei.uniforms, [], ei.defines, null);
                 }
                 // Get the non instanced version
-                ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_FILLPARTID, ["position"], false);
+                ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_FILLPARTID, ["position"], null, false);
                 renderCache.effectFill = engine.createEffect("lines2d", ei.attributes, ei.uniforms, [], ei.defines, null);
             }
             // Need to create WebGL resources for border part?
@@ -987,12 +987,12 @@ var BABYLON;
                 renderCache.borderIB = engine.createIndexBuffer(this._borderIB);
                 renderCache.borderIndicesCount = this._borderIB.length;
                 // Get the instanced version of the effect, if the engine does not support it, null is return and we'll only draw on by one
-                var ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_BORDERPARTID, ["position"], true);
+                var ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_BORDERPARTID, ["position"], null, true);
                 if (ei) {
                     renderCache.effectBorderInstanced = engine.createEffect({ vertex: "lines2d", fragment: "lines2d" }, ei.attributes, ei.uniforms, [], ei.defines, null);
                 }
                 // Get the non instanced version
-                ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_BORDERPARTID, ["position"], false);
+                ei = this.getDataPartEffectInfo(BABYLON.Shape2D.SHAPE2D_BORDERPARTID, ["position"], null, false);
                 renderCache.effectBorder = engine.createEffect({ vertex: "lines2d", fragment: "lines2d" }, ei.attributes, ei.uniforms, [], ei.defines, null);
             }
             this._fillVB = null;
@@ -1165,6 +1165,6 @@ var BABYLON;
             BABYLON.className("Lines2D")
         ], Lines2D);
         return Lines2D;
-    })(BABYLON.Shape2D);
+    }(BABYLON.Shape2D));
     BABYLON.Lines2D = Lines2D;
 })(BABYLON || (BABYLON = {}));

@@ -20,8 +20,10 @@ var BABYLON;
             this._direction = 1;
             this._frameCount = 0;
             this._time = 0;
-            this._manager = manager;
-            this._manager.sprites.push(this);
+            if (manager) {
+                this._manager = manager;
+                manager.sprites.push(this);
+            }
             this.position = BABYLON.Vector3.Zero();
         }
         Object.defineProperty(Sprite.prototype, "size", {
@@ -31,6 +33,24 @@ var BABYLON;
             set: function (value) {
                 this.width = value;
                 this.height = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Sprite.prototype, "manager", {
+            get: function () {
+                return this._manager;
+            },
+            set: function (value) {
+                if (this._manager && value !== this._manager) {
+                    this.remove();
+                    this._manager = value;
+                }
+                if (value) {
+                    var index = value.sprites.indexOf(this);
+                    if (index == -1)
+                        value.sprites.push(this);
+                }
             },
             enumerable: true,
             configurable: true
@@ -73,13 +93,15 @@ var BABYLON;
             }
         };
         Sprite.prototype.dispose = function () {
-            for (var i = 0; i < this._manager.sprites.length; i++) {
-                if (this._manager.sprites[i] == this) {
-                    this._manager.sprites.splice(i, 1);
-                }
-            }
+            this.remove();
+            this._manager = null;
+        };
+        Sprite.prototype.remove = function () {
+            var index = this._manager.sprites.indexOf(this);
+            if (index != -1)
+                this._manager.sprites.splice(index, 1);
         };
         return Sprite;
-    })();
+    }());
     BABYLON.Sprite = Sprite;
 })(BABYLON || (BABYLON = {}));
